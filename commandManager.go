@@ -18,6 +18,9 @@ type CommandManager struct {
     // MessagingSettings is an instance of the MessageSettings struct which stores info on what it should send messages for, and do with messages sent.
     MessagingSettings MessageSettings
 
+    // SelfBot sets whether or not it should react to only the self user or only other users.
+    SelfBot bool
+
     nameMap  map[string]Command
     aliasMap map[string]string
 }
@@ -53,6 +56,7 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
     manager = CommandManager{
         Prefix:   "!",
         Commands: []Command{},
+        SelfBot:  false,
 
         MessagingSettings: MessageSettings{
             NoCommand:            false,
@@ -70,8 +74,14 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
         aliasMap: map[string]string{},
     } // Let the user set the information themselves.
     listener = func(session *discordgo.Session, event *discordgo.MessageCreate) {
-        if session.State.User.ID == event.Author.ID {
-            return
+        if manager.SelfBot {
+            if session.State.User.ID != event.Author.ID {
+                return
+            }
+        } else {
+            if session.State.User.ID == event.Author.ID {
+                return
+            }
         }
         if !strings.HasPrefix(event.Content, manager.Prefix) {
             return
