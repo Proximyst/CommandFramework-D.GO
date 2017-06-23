@@ -70,17 +70,17 @@ type CommandContext struct {
     Label string
 }
 
-// getChannel returns the discordgo Channel object and an optional error too.
+// GetChannel returns the discordgo Channel object and an optional error too.
 // If error isn't nil, channel will be, and vice versa.
-func (context *CommandContext) getChannel() (*discordgo.Channel, error) {
+func (context *CommandContext) GetChannel() (*discordgo.Channel, error) {
     return context.Session.Channel(context.ChannelId)
 }
 
-// getConstantChannel gets the discordgo Channel object, but with the error handling done.
+// GetConstantChannel gets the discordgo Channel object, but with the error handling done.
 // If it's nil, an error occurred, and if it's not, everything is fine.
-// It's internally simply the getChannel method but with error ignoring.
-func (context *CommandContext) getConstantChannel() *discordgo.Channel {
-    channel, err := context.getChannel()
+// It's internally simply the GetChannel method but with error ignoring.
+func (context *CommandContext) GetConstantChannel() *discordgo.Channel {
+    channel, err := context.GetChannel()
     if err != nil {
         return nil
     }
