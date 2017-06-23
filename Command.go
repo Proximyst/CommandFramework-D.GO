@@ -62,6 +62,9 @@ type CommandContext struct {
     // Arguments include anything after the command itself. E.g. in "!hi there", "there" is the argument specified.
     // It will never be nil, but rather an empty array. If it contains anything, it'll be a slice.
     Arguments []string
+
+    // Label is the command name/alias which was used to execute the command.
+    Label string
 }
 
 // getChannel returns the discordgo Channel object and an optional error too.
