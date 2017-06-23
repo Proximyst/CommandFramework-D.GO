@@ -52,7 +52,10 @@ type CommandContext struct {
     // State is the state of the bot itself, so it contains bot information.
     State     *discordgo.State
 
-    // AuthorId is the author user ID. This can be used to get a User object.
+    // Author is the actual discordgo User object for the author whom executed the command.
+    Author *discordgo.User
+
+    // AuthorId is the author user ID.
     AuthorId  string
 
     // ChannelId is the channel ID, and can be further used to retrieve server ID and server object,
