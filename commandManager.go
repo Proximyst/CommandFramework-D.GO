@@ -151,8 +151,8 @@ func (manager *CommandManager) AddCommand(name string, command Command) {
     manager.Commands = append(manager.Commands, command)
     manager.nameMap[register] = command
     if register != lowerCmd {
-        if _, exists := manager.aliasMap[lowerCmd]; !exists {
-            manager.aliasMap[lowerCmd] = register
+        if _, exists := manager.nameMap[lowerCmd]; !exists {
+            manager.nameMap[lowerCmd] = command
         }
     }
     if command.Aliases() != nil && len(command.Aliases()) > 0 {
