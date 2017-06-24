@@ -25,32 +25,6 @@ type CommandManager struct {
     aliasMap map[string]string
 }
 
-type MessageSettings struct {
-    // NoCommand sets whether or not it should send a message when a command is not recognized.
-    NoCommand bool
-
-    // Failure sets whether or not it should send the error returned by Execute in a Command upon failure outcome.
-    Failure bool
-
-    // Usage sets whether or not it should send the usage for the command if the outcome upon Execute is so.
-    Usage bool
-
-    // DeleteCommand sets whether or not it should delete commands sent.
-    DeleteCommand bool
-
-    // DeleteUnknownCommand sets whether or not it should delete unknown commands sent.
-    DeleteUnknownCommand bool
-
-    // NoCommandMessage specifies the message which will be used when no commands are found
-    NoCommandMessage string
-
-    // FailureMessage specifies the message which will be used for errors upon failure outcomes.
-    FailureMessage string
-
-    // UsageMessage specifies the message which will be used for usage outcomes.
-    UsageMessage string
-}
-
 // NewManager returns a new manager for the framework and a listener function the user have to add to their session.
 func NewManager() (manager CommandManager, listener func(session *discordgo.Session, event *discordgo.MessageCreate)) {
     manager = CommandManager{
@@ -72,7 +46,7 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
 
         nameMap:  map[string]Command{},
         aliasMap: map[string]string{},
-    } // Let the user set the information themselves.
+    } // Let the user set the information themselves afterwards.
     listener = func(session *discordgo.Session, event *discordgo.MessageCreate) {
         if manager.SelfBot {
             if session.State.User.ID != event.Author.ID {
@@ -126,7 +100,7 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
         outcome, err := command.Execute(&context)
 
         switch outcome {
-        case CommandOutcome_Success:
+        case CommandOutcome_Success: // Simply to identify it's there.
             break
 
         case CommandOutcome_Failure:
@@ -143,10 +117,10 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
             }))
             break
 
-        case CommandOutcome_Custom:
+        case CommandOutcome_Custom: // Simply to identify it's there.
             break
 
-        case CommandOutcome_NoPermission:
+        case CommandOutcome_NoPermission: // Simply to identify it's there.
             break
 
         case CommandOutcome_Usage:
@@ -159,7 +133,7 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
             }))
             break
 
-        default:
+        default: // Simply to identify it's possible I add more later, or someone else does without implementing here.
             break
         }
         if manager.MessagingSettings.DeleteCommand {
