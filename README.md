@@ -48,19 +48,19 @@ And in that example, this may be the TestCommand:
 ```go
 type TestCommand struct {}
 
-func (*TestCommand) Name() string {
+func (TestCommand) Name() string {
   return "ping" // This is used in addition to the AddCommand param if you want another main alias.
 }
 
-func (*TestCommand) Aliases() []string {
+func (TestCommand) Aliases() []string {
   return []string { "ping" } // Only 1 alias, "ping". These are less prioritised.
 }
 
-func (*TestCommand) Usage() string {
+func (TestCommand) Usage() string {
   return "{LABEL}" // Returns to only use the label of the entered command.
 }
 
-func (*TestCommand) Execute(context *cmdf.CommandContext) (outcome int, err error) {
+func (TestCommand) Execute(context *cmdf.CommandContext) (outcome int, err error) {
   context.Session.ChannelMessageCreate(context.ChannelId, "Pong!")
   outcome = cmdf.CommandOutcome_Success
   return
