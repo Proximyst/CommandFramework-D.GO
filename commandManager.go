@@ -147,8 +147,14 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
 // It also registers all aliases as long as they're not already taken.
 func (manager *CommandManager) AddCommand(name string, command Command) {
     register := strings.ToLower(name)
+    lowerCmd := strings.ToLower(command.Name())
     manager.Commands = append(manager.Commands, command)
     manager.nameMap[register] = command
+    if register != lowerCmd {
+        if _, exists := manager.aliasMap[lowerCmd]; !exists {
+            manager.aliasMap[lowerCmd] = register
+        }
+    }
     if command.Aliases() != nil && len(command.Aliases()) > 0 {
         for _, alias := range command.Aliases() {
             current := strings.ToLower(alias)
