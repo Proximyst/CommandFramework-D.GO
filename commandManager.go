@@ -67,7 +67,7 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
 
         if err != nil {
             if manager.MessagingSettings.NoCommand {
-                session.ChannelMessageSend(event.ChannelID, FormatString(manager.MessagingSettings.NoCommandMessage, map[string]string{
+                session.ChannelMessageSend(event.ChannelID, formatString(manager.MessagingSettings.NoCommandMessage, map[string]string{
                     "author": event.Author.Mention(),
                     "input":  splitContent[0],
                 }))
@@ -111,7 +111,7 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
             if strings.Trim(errMsg, " ") == "" {
                 break
             }
-            session.ChannelMessageSend(event.ChannelID, FormatString(manager.MessagingSettings.FailureMessage, map[string]string{
+            session.ChannelMessageSend(event.ChannelID, formatString(manager.MessagingSettings.FailureMessage, map[string]string{
                 "author": event.Author.Mention(),
                 "error":  errMsg,
             }))
@@ -127,7 +127,7 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
             if !manager.MessagingSettings.Usage {
                 break
             }
-            session.ChannelMessageSend(event.ChannelID, FormatString(manager.MessagingSettings.UsageMessage, map[string]string{
+            session.ChannelMessageSend(event.ChannelID, formatString(manager.MessagingSettings.UsageMessage, map[string]string{
                 "author": event.Author.Mention(),
                 "usage":  command.Usage(),
             }))
