@@ -35,7 +35,6 @@ func main() {
   Manager.SelfBot = true // Selfbot? Go for it.
   
   Manager.AddCommand(
-    "test", // This is the name of the command
     TestCommand{} // This is the struct which is inheriting everything of Command
   )
   

@@ -4,6 +4,7 @@ import (
     "github.com/bwmarrin/discordgo"
     "strings"
     "errors"
+    "fmt"
 )
 
 // CommandManager holds all command instances.
@@ -21,8 +22,7 @@ type CommandManager struct {
     // SelfBot sets whether or not it should react to only the self user or only other users.
     SelfBot bool
 
-    nameMap  map[string]Command
-    aliasMap map[string]string
+    aliasMap map[string]Command
 }
 
 // NewManager returns a new manager for the framework and a listener function the user have to add to their session.
@@ -44,8 +44,7 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
             UsageMessage:     "{AUTHOR} » The correct usage is: `{USAGE}`",
         },
 
-        nameMap:  map[string]Command{},
-        aliasMap: map[string]string{},
+        aliasMap: map[string]Command{},
     } // Let the user set the information themselves afterwards.
     listener = func(session *discordgo.Session, event *discordgo.MessageCreate) {
         if manager.SelfBot {
@@ -145,17 +144,18 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
 
 // AddCommand registers a command to the map using the internal fields.
 // It also registers all aliases as long as they're not already taken.
-func (manager *CommandManager) AddCommand(name string, command Command) {
-    register := strings.ToLower(name)
-    manager.Commands = append(manager.Commands, command)
-    manager.nameMap[register] = command
-    if command.Aliases() != nil && len(command.Aliases()) > 0 {
-        for _, alias := range command.Aliases() {
-            current := strings.ToLower(alias)
-            if _, exists := manager.aliasMap[current]; exists {
-                continue
+func (manager *CommandManager) AddCommand(commands ...Command) {
+    for _, command := range commands {
+        manager.Commands = append(manager.Commands, command)
+        if command.Aliases() != nil && len(command.Aliases()) > 0 {
+            for _, alias := range command.Aliases() {
+                current := strings.ToLower(alias)
+                if _, exists := manager.aliasMap[current]; exists {
+                    fmt.Println("[WARN] A command under the alias", alias, "already exists.")
+                    continue
+                }
+                manager.aliasMap[current] = command
             }
-            manager.aliasMap[current] = register
         }
     }
 }
@@ -163,12 +163,7 @@ func (manager *CommandManager) AddCommand(name string, command Command) {
 // ResolveCommand gets a command from the internal fields and checks names and aliases.
 // If none is found, Command returned is nil and error isn't, and vice versa.
 func (manager *CommandManager) ResolveCommand(name string) (command Command, err error) {
-    command, exists := manager.nameMap[strings.ToLower(name)]
-
-    if exists {
-        return
-    }
-    command, exists = manager.nameMap[manager.aliasMap[strings.ToLower(name)]]
+    command, exists := manager.aliasMap[strings.ToLower(name)]
     if !exists {
         err = errors.New(`No command was found under the name nor alias of "` + name + `".`)
     }
