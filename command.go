@@ -19,10 +19,7 @@ const (
 
 // Command stores the information.
 type Command interface {
-    // Name is the name for the command to be executed.
-    Name() string
-
-    // Aliases stores all the other names you can use for the command to be executed, but they'll be less prioritised than names.
+    // Aliases stores all the names you can use for the command to be executed.
     Aliases() []string
 
     // Usage is simply the way one should perform the command.

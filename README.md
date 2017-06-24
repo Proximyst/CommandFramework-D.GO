@@ -48,12 +48,8 @@ And in that example, this may be the TestCommand:
 ```go
 type TestCommand struct {}
 
-func (TestCommand) Name() string {
-  return "ping" // This is used in addition to the AddCommand param if you want another main alias.
-}
-
 func (TestCommand) Aliases() []string {
-  return []string { "ping" } // Only 1 alias, "ping". These are less prioritised.
+  return []string { "ping" } // Only 1 alias, "ping".
 }
 
 func (TestCommand) Usage() string {
