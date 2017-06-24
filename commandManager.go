@@ -26,27 +26,26 @@ type CommandManager struct {
 }
 
 // NewManager returns a new manager for the framework and a listener function the user have to add to their session.
-func NewManager() (manager CommandManager, listener func(session *discordgo.Session, event *discordgo.MessageCreate)) {
-    manager = CommandManager{
-        Prefix:   "!",
-        Commands: []Command{},
-        SelfBot:  false,
-
-        MessagingSettings: MessageSettings{
-            NoCommand:            false,
-            Failure:              true,
-            Usage:                true,
-            DeleteCommand:        true,
-            DeleteUnknownCommand: false,
-
-            NoCommandMessage: "{AUTHOR} » The command `{INPUT}` is not recognized.",
-            FailureMessage:   "{AUTHOR} » An error occurred.\n- {ERROR}",
-            UsageMessage:     "{AUTHOR} » The correct usage is: `{USAGE}`",
-        },
-
-        aliasMap: map[string]Command{},
-    } // Let the user set the information themselves afterwards.
-    listener = func(session *discordgo.Session, event *discordgo.MessageCreate) {
+func NewManager(manager *CommandManager) func(session *discordgo.Session, event *discordgo.MessageCreate) {
+    if manager.Prefix == "" {
+        manager.Prefix = "!"
+    }
+    if manager.Commands == nil {
+        manager.Commands = []Command{}
+    }
+    if manager.aliasMap == nil {
+        manager.aliasMap = map[string]Command{}
+    }
+    if manager.MessagingSettings.UsageMessage == "" {
+        manager.MessagingSettings.UsageMessage = "{AUTHOR} » The command `{INPUT}` is not recognized."
+    }
+    if manager.MessagingSettings.FailureMessage == "" {
+        manager.MessagingSettings.UsageMessage = "{AUTHOR} » An error occurred.\n- {ERROR}"
+    }
+    if manager.MessagingSettings.NoCommandMessage == "" {
+        manager.MessagingSettings.UsageMessage = "{AUTHOR} » The command `{INPUT}` is not recognized."
+    }
+    return func(session *discordgo.Session, event *discordgo.MessageCreate) {
         if manager.SelfBot {
             if session.State.User.ID != event.Author.ID {
                 return
@@ -139,7 +138,6 @@ func NewManager() (manager CommandManager, listener func(session *discordgo.Sess
             session.ChannelMessageDelete(event.ChannelID, event.Message.ID)
         }
     }
-    return
 }
 
 // AddCommand registers a command to the map using the internal fields.

@@ -30,9 +30,11 @@ var (
  // ....
 func main() {
   // .... - bot is assumed to be the result from discordgo.New
-  Manager, listener := cmdf.NewManager()
-  Manager.Prefix = "::" // Custom prefix. Anything in there is mutable.
-  Manager.SelfBot = true // Selfbot? Go for it.
+  Manager := cmdf.CommandManager {
+    Prefix:"::",
+    SelfBot:true,
+  }
+  listener := cmdf.NewManager(&Manager)
   
   Manager.AddCommand(
     TestCommand{} // This is the struct which is inheriting everything of Command
