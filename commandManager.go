@@ -37,13 +37,13 @@ func NewManager(manager *CommandManager) func(session *discordgo.Session, event 
         manager.aliasMap = map[string]Command{}
     }
     if manager.MessagingSettings.UsageMessage == "" {
-        manager.MessagingSettings.UsageMessage = "{AUTHOR} » The command `{INPUT}` is not recognized."
+        manager.MessagingSettings.UsageMessage = "{AUTHOR} » The command `{LABEL}` is not recognized."
     }
     if manager.MessagingSettings.FailureMessage == "" {
         manager.MessagingSettings.UsageMessage = "{AUTHOR} » An error occurred.\n- {ERROR}"
     }
     if manager.MessagingSettings.NoCommandMessage == "" {
-        manager.MessagingSettings.UsageMessage = "{AUTHOR} » The command `{INPUT}` is not recognized."
+        manager.MessagingSettings.UsageMessage = "{AUTHOR} » The command `{LABEL}` is not recognized."
     }
     return func(session *discordgo.Session, event *discordgo.MessageCreate) {
         if manager.SelfBot {
