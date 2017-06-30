@@ -37,7 +37,7 @@ func NewManager(manager *CommandManager) func(session *discordgo.Session, event 
         manager.aliasMap = map[string]Command{}
     }
     if manager.MessagingSettings.UsageMessage == "" {
-        manager.MessagingSettings.UsageMessage = "{AUTHOR} » The command `{LABEL}` is not recognized."
+        manager.MessagingSettings.UsageMessage = "{AUTHOR} » The command should be executed the following way: {USAGE}"
     }
     if manager.MessagingSettings.FailureMessage == "" {
         manager.MessagingSettings.UsageMessage = "{AUTHOR} » An error occurred.\n- {ERROR}"
@@ -128,6 +128,7 @@ func NewManager(manager *CommandManager) func(session *discordgo.Session, event 
             session.ChannelMessageSend(event.ChannelID, formatString(manager.MessagingSettings.UsageMessage, map[string]string{
                 "author": event.Author.Mention(),
                 "usage":  command.Usage(),
+                "label":  splitContent[0],
             }))
             break
 
