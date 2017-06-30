@@ -67,7 +67,7 @@ func NewManager(manager *CommandManager) func(session *discordgo.Session, event 
             if manager.MessagingSettings.NoCommand {
                 session.ChannelMessageSend(event.ChannelID, formatString(manager.MessagingSettings.NoCommandMessage, map[string]string{
                     "author": event.Author.Mention(),
-                    "input":  splitContent[0],
+                    "label":  splitContent[0],
                 }))
             }
             if manager.MessagingSettings.DeleteUnknownCommand {
@@ -95,8 +95,11 @@ func NewManager(manager *CommandManager) func(session *discordgo.Session, event 
             Label:     splitContent[0],
         }
 
-        outcome, err := command.Execute(&context)
+        if manager.MessagingSettings.DeleteCommand {
+            session.ChannelMessageDelete(event.ChannelID, event.Message.ID)
+        }
 
+        outcome, err := command.Execute(&context)
         switch outcome {
         case CommandOutcome_Success: // Simply to identify it's there.
             break
@@ -134,9 +137,6 @@ func NewManager(manager *CommandManager) func(session *discordgo.Session, event 
 
         default: // Simply to identify it's possible I add more later, or someone else does without implementing here.
             break
-        }
-        if manager.MessagingSettings.DeleteCommand {
-            session.ChannelMessageDelete(event.ChannelID, event.Message.ID)
         }
     }
 }
