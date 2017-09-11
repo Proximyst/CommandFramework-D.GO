@@ -3,15 +3,15 @@ package commandframework_discordgo
 import "github.com/bwmarrin/discordgo"
 
 type CommandContext struct {
-  State *discordgo.State
-  Session *discordgo.Session
-  Message *discordgo.Message
-  Author *discordgo.User
-  Id string
-  IdU64 uint64
-  MessageId string
+  State        *discordgo.State
+  Session      *discordgo.Session
+  Message      *discordgo.Message
+  Author       *discordgo.User
+  Id           string
+  IdU64        uint64
+  MessageId    string
   MessageIdU64 uint64
-  ChannelId string
+  ChannelId    string
   ChannelIdU64 uint64
 }
 
