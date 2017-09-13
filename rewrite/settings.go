@@ -1,10 +1,10 @@
 package commandframework_discordgo
 
 type settings struct {
-  SelfBot bool
+  SelfBot selfBotSettings
 }
 
 type selfBotSettings struct {
   Enabled bool
-  React string
+  React []string
 }
