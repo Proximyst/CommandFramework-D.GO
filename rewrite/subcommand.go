@@ -7,5 +7,5 @@ type SubCommand interface {
 
   Predicates() []Predicate
 
-  Execute()
+  Execute(ctx *SubCommandContext) (outcome Outcome, err error)
 }
