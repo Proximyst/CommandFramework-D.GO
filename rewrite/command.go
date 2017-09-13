@@ -11,7 +11,7 @@ type Command interface {
 }
 
 type internalCommand struct {
-  UserCommand      Command
+  UserCommand      *Command
   CachedAliases    []string
   CachedMessages   map[Outcome]string
   CachedPredicates []Predicate
