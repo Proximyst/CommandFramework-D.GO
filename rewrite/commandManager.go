@@ -11,9 +11,24 @@ type CommandManager struct {
   Prefix   string
 }
 
-func (manager *CommandManager) Ready() error {
+func (manager *CommandManager) Ready(commands []Command) error {
   if manager.Bot == nil {
     return errors.New("No bot was defined, which is needed!")
   }
+  if manager.Commands == nil{
+    manager.Commands = make([]InternalCommand, len(commands))
+  }
+  for index, cmd := range commands {
+    manager.Commands[index] = InternalCommand{
+      UserCommand:cmd,
+      CachedAliases:cmd.Aliases(),
+      CachedMessages:cmd.Message(),
+      CachedPredicates:cmd.Predicates(),
+    }
+  }
+  if manager.Prefix == "" {
+
+  }
+
   return nil
 }
