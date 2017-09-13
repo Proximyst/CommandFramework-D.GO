@@ -10,7 +10,7 @@ type Command interface {
   Execute(ctx *CommandContext) (outcome Outcome, err error)
 }
 
-type InternalCommand struct {
+type internalCommand struct {
   UserCommand      Command
   CachedAliases    []string
   CachedMessages   map[Outcome]string
