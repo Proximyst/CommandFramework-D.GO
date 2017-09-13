@@ -2,5 +2,5 @@
 
 :COMMIT
 commit.bat work.
-TIMEOUT /T 10 /NOBREAK
-GOTO COMMIT
+TIMEOUT /T 10
+goto COMMIT
