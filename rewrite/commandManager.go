@@ -13,7 +13,7 @@ type CommandManager struct {
 
 func (manager *CommandManager) Ready(commands []Command) error {
   if manager.Bot == nil {
-    return errors.New("No bot was defined, which is needed!")
+    return errors.New("1 No bot was defined, which is needed!")
   }
   if manager.Commands == nil{
     manager.Commands = make([]InternalCommand, len(commands))
@@ -27,7 +27,7 @@ func (manager *CommandManager) Ready(commands []Command) error {
     }
   }
   if manager.Prefix == "" {
-
+    return errors.New("0 A prefix is very much recommended!")
   }
 
   return nil
