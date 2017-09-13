@@ -11,8 +11,8 @@ type SubCommand interface {
 }
 
 type internalSubCommand struct {
-  UserCommand *SubCommand
-  CachedAliases []string
-  CachedMessages map[Outcome]string
+  UserCommand      *SubCommand
+  CachedAliases    []string
+  CachedMessages   map[Outcome]string
   CachedPredicates []Predicate
 }
