@@ -6,5 +6,5 @@ type settings struct {
 
 type selfBotSettings struct {
   Enabled bool
-  React []string
+  React   []string
 }
