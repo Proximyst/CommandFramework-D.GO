@@ -1,0 +1,5 @@
+@ECHO OFF
+:COMMIT
+commit.bat work.
+TIMEOUT /T 30 /NOBREAK
+GOTO :COMMIT
