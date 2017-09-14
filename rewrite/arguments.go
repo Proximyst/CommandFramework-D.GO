@@ -8,12 +8,12 @@ type Arguments struct {
 	Position int
 }
 
-func (arr *Arguments) incr() {
+func (arr *Arguments) incrementPosition() {
 	arr.Position += 1
 }
 
 func (arr *Arguments) ParseString() string {
-	arr.incr()
+	arr.incrementPosition()
 	return arr.ParseStringPos(arr.Position)
 }
 
