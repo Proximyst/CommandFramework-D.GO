@@ -14,6 +14,7 @@ type SubCommandContext struct {
 	MessageIdU64 uint64
 	ChannelId    string
 	ChannelIdU64 uint64
+	Arguments    Arguments
 }
 
 func (ctx *SubCommandContext) Channel() (channel *discordgo.Channel, err error) {
