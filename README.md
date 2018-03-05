@@ -38,7 +38,8 @@ func main() {
         Names: []string{
             "ping",
             "pong",
-        }
+        },
+        Predicates: []func(context *CommandContext) bool{},
     }) // This can take any number of arguments. Just add a comma and another one, or a hundred
 
     // Done?
