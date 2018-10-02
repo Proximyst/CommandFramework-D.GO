@@ -1,16 +1,22 @@
 package commandframework_discordgo
 
 import (
-	"github.com/bwmarrin/discordgo"
 	"strings"
+
+	"github.com/bwmarrin/discordgo"
 )
 
+// CommandManager handles the execution of Commands,
 type CommandManager struct {
-	Prefix    string
-	Commands  []Command
+	// Prefix to look for to signify Commands.
+	Prefix string
+	// An array of valid Commands
+	Commands []Command
+	// Command behavior settings
 	Behaviour BehaviourSettings
 }
 
+// Function to construct a CommandManager
 func CreateManager() CommandManager {
 	return CommandManager{
 		Prefix:   "!",
@@ -24,12 +30,14 @@ func CreateManager() CommandManager {
 	}
 }
 
-func (manager *CommandManager) AddCommand(commands ... Command) {
+// Function to add Commands to the CommandManager
+func (manager *CommandManager) AddCommand(commands ...Command) {
 	for _, command := range commands {
 		manager.Commands = append(manager.Commands, command)
 	}
 }
 
+// Function to monitor chat for commands
 func (manager *CommandManager) ChatListener(session *discordgo.Session, event *discordgo.MessageCreate) {
 	if event.Author.ID == session.State.User.ID {
 		return // Is the bot itself
